@@ -258,7 +258,7 @@ kubectl scale deployment excalidraw-client --replicas=10
 
 이 레포지토리에서는:
 - **Client**: 멀티스테이지 적용됨 ✅
-- **Socket**: 멀티스테이지 적용 권장 ⚠️
+- **Socket**: 멀티스테이지 적용됨 ✅ (최신 업데이트)
 - **Server**: 빌드 불필요 (단순 파일 서버) ✅
 
 ## 참고 자료
