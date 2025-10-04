@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: excalidraw-server
+  labels:
+    app: excalidraw
+    component: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: excalidraw
+      component: server
+  template:
+    metadata:
+      labels:
+        app: excalidraw
+        component: server
+    spec:
+      containers:
+      - name: excalidraw-server
+        image: excalidraw-server:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - name: excalidraw-storage
+          mountPath: /data/excalidraw
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: excalidraw-storage
+        persistentVolumeClaim:
+          claimName: excalidraw-storage-pvc

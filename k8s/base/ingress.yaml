@@ -1,0 +1,44 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: excalidraw-ingress
+  labels:
+    app: excalidraw
+  annotations:
+    # Uncomment and configure based on your ingress controller
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  # Uncomment if using TLS
+  # tls:
+  # - hosts:
+  #   - excalidraw.example.com
+  #   secretName: excalidraw-tls
+  rules:
+  - host: excalidraw.example.com  # Replace with your domain
+    http:
+      paths:
+      # Client application
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: excalidraw-client
+            port:
+              number: 80
+      # Server for .excalidraw files
+      - path: /files
+        pathType: Prefix
+        backend:
+          service:
+            name: excalidraw-server
+            port:
+              number: 8080
+      # Socket server (optional)
+      - path: /socket
+        pathType: Prefix
+        backend:
+          service:
+            name: excalidraw-socket
+            port:
+              number: 3002
