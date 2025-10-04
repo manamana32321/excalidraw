@@ -7,6 +7,7 @@ This repository now contains a complete Kubernetes deployment configuration for 
 ## What Was Created
 
 ### Directory Structure
+
 ```
 excalidraw/
 ├── README.md                          # Comprehensive documentation
@@ -47,6 +48,7 @@ excalidraw/
 ## Key Features
 
 ### 1. Client Deployment
+
 - Multi-stage Docker build using official Excalidraw repository
 - Nginx-based static file serving
 - Optimized caching and compression
@@ -54,6 +56,7 @@ excalidraw/
 - Resource limits configured
 
 ### 2. Server Deployment
+
 - Nginx-based file server for .excalidraw files
 - Persistent storage using PersistentVolumeClaim (10Gi)
 - CORS headers for cross-origin access
@@ -61,11 +64,13 @@ excalidraw/
 - File upload support (via WebDAV)
 
 ### 3. Socket Server (Optional)
+
 - Real-time collaboration support
 - WebSocket server on port 3002
 - Can be enabled by uncommenting in kustomization.yaml
 
 ### 4. Ingress Configuration
+
 - Single ingress for all services
 - Path-based routing:
   - `/` → Client application
@@ -75,17 +80,20 @@ excalidraw/
 - Cert-manager annotation support
 
 ### 5. Storage
+
 - PersistentVolumeClaim for .excalidraw files
 - 10Gi storage request
 - ReadWriteOnce access mode
 - Storage class configurable
 
 ### 6. Deployment Tools
+
 - **build.sh**: Builds all Docker images locally
 - **deploy.sh**: Deploys to Kubernetes in correct order
 - **kustomization.yaml**: Kustomize-based deployment
 
 ### 7. ArgoCD Integration
+
 - Example Application manifests for GitOps
 - Automated sync policy
 - Self-healing enabled
@@ -96,10 +104,12 @@ excalidraw/
 As per requirements, the deployment follows this order:
 
 1. **Client** (First)
+
    - Web application frontend
    - Serves the Excalidraw UI
 
 2. **Server** (Second)
+
    - Storage backend
    - Exposes .excalidraw files via ingress
    - Files accessible at `/files` endpoint
@@ -111,6 +121,7 @@ As per requirements, the deployment follows this order:
 ## External Access
 
 All .excalidraw files stored on the server are exposed through:
+
 - **URL**: `https://your-domain.com/files/`
 - **Access**: Via ingress controller
 - **Features**:
@@ -123,9 +134,11 @@ All .excalidraw files stored on the server are exposed through:
 Before deployment, update these files with your environment settings:
 
 1. **k8s/base/ingress.yaml**
-   - Replace `excalidraw.example.com` with your actual domain
+
+   - Replace `excalidraw.json-server.win` with your actual domain
 
 2. **k8s/base/configmap.yaml**
+
    - Update `VITE_APP_WS_SERVER_URL` with your domain
    - Update `VITE_APP_HTTP_STORAGE_BACKEND_URL` with your domain
 
@@ -148,22 +161,27 @@ This repository (`manamana32321/excalidraw`) contains all the actual service-rel
 ## Next Steps
 
 1. **Build Images**:
+
    ```bash
    ./build.sh
    ```
 
 2. **Configure Settings**:
+
    - Update domain in ingress.yaml
    - Update URLs in configmap.yaml
    - Set storage class in pvc.yaml (if needed)
 
 3. **Deploy**:
+
    ```bash
    ./deploy.sh
    ```
+
    Or use ArgoCD by adding the application manifest to your homelab repo.
 
 4. **Verify**:
+
    ```bash
    kubectl get all -n excalidraw
    kubectl get ingress -n excalidraw
@@ -187,6 +205,7 @@ All YAML files have been validated and are syntactically correct.
 ## Summary
 
 ✅ All requirements met:
+
 - ✅ Client deployment (first)
 - ✅ Server deployment with persistent storage (second)
 - ✅ Socket server deployment (optional, last)

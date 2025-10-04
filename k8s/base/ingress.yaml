@@ -5,17 +5,16 @@ metadata:
   labels:
     app: excalidraw
   annotations:
-    # Uncomment and configure based on your ingress controller
-    # nginx.ingress.kubernetes.io/rewrite-target: /
-    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: letsencrypt
+    traefik.ingress.kubernetes.io/redirect-entry-point: https
 spec:
   # Uncomment if using TLS
-  # tls:
-  # - hosts:
-  #   - excalidraw.example.com
-  #   secretName: excalidraw-tls
+  tls:
+  - hosts:
+    - excalidraw.json-server.win
+    secretName: excalidraw-tls
   rules:
-  - host: excalidraw.example.com  # Replace with your domain
+  - host: excalidraw.json-server.win
     http:
       paths:
       # Client application

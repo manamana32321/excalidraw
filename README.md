@@ -94,6 +94,7 @@ Deploy everything with the provided script:
 ### Manual Deployment
 
 1. **Deploy Client** (first):
+
 ```bash
 kubectl apply -f k8s/base/namespace.yaml
 kubectl apply -f k8s/client/deployment.yaml
@@ -101,6 +102,7 @@ kubectl apply -f k8s/client/service.yaml
 ```
 
 2. **Deploy Server** (second):
+
 ```bash
 kubectl apply -f k8s/base/pvc.yaml
 kubectl apply -f k8s/base/configmap.yaml
@@ -109,11 +111,13 @@ kubectl apply -f k8s/server/service.yaml
 ```
 
 3. **Deploy Ingress**:
+
 ```bash
 kubectl apply -f k8s/base/ingress.yaml
 ```
 
 4. **Deploy Socket Server** (optional, last):
+
 ```bash
 # Uncomment socket resources in k8s/base/kustomization.yaml
 kubectl apply -f k8s/socket/deployment.yaml
@@ -131,6 +135,7 @@ kubectl apply -k k8s/base/
 ## Accessing the Application
 
 1. Get the ingress IP:
+
 ```bash
 kubectl get ingress -n excalidraw
 ```
@@ -138,8 +143,8 @@ kubectl get ingress -n excalidraw
 2. Configure your DNS to point your domain to the ingress IP
 
 3. Access the application:
-   - Client: `https://excalidraw.example.com/`
-   - Files: `https://excalidraw.example.com/files/`
+   - Client: `https://excalidraw.json-server.win/`
+   - Files: `https://excalidraw.json-server.win/files/`
 
 ## File Storage
 
@@ -178,18 +183,21 @@ kubectl logs -f deployment/excalidraw-server -n excalidraw
 ## Troubleshooting
 
 ### Pod not starting
+
 ```bash
 kubectl describe pod <pod-name> -n excalidraw
 kubectl logs <pod-name> -n excalidraw
 ```
 
 ### Storage issues
+
 ```bash
 kubectl get pvc -n excalidraw
 kubectl describe pvc excalidraw-storage-pvc -n excalidraw
 ```
 
 ### Ingress not working
+
 ```bash
 kubectl describe ingress excalidraw-ingress -n excalidraw
 ```
@@ -218,7 +226,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
 ```
 
 ## Upgrading

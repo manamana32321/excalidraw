@@ -12,9 +12,8 @@ resources:
   - ../client/service.yaml
   - ../server/deployment.yaml
   - ../server/service.yaml
-  # Uncomment to enable socket server
-  # - ../socket/deployment.yaml
-  # - ../socket/service.yaml
+  - ../socket/deployment.yaml
+  - ../socket/service.yaml
 
 commonLabels:
   app: excalidraw
