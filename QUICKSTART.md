@@ -1,5 +1,7 @@
 # Quick Start Guide
 
+Get Excalidraw up and running in your Kubernetes cluster using official Docker images.
+
 ## Prerequisites Check
 
 ```bash
@@ -21,27 +23,7 @@ kubectl get pods -n ingress-nginx
 2. Edit `k8s/base/configmap.yaml` and update URLs with your domain
 3. (Optional) Edit `k8s/base/pvc.yaml` and uncomment/set the `storageClassName`
 
-### Step 2: Build Docker Images
-
-```bash
-./build.sh
-```
-
-**Note**: If you're using a container registry, tag and push images:
-
-```bash
-docker tag excalidraw-client:latest your-registry/excalidraw-client:latest
-docker tag excalidraw-server:latest your-registry/excalidraw-server:latest
-docker tag excalidraw-socket:latest your-registry/excalidraw-socket:latest
-
-docker push your-registry/excalidraw-client:latest
-docker push your-registry/excalidraw-server:latest
-docker push your-registry/excalidraw-socket:latest
-```
-
-Then update the image references in deployment files.
-
-### Step 3: Deploy to Kubernetes
+### Step 2: Deploy to Kubernetes
 
 ```bash
 ./deploy.sh
@@ -50,26 +32,25 @@ Then update the image references in deployment files.
 Or manually:
 
 ```bash
-# Deploy client first
+# Deploy using Kustomize (recommended)
+kubectl apply -k k8s/base/
+
+# Or deploy components individually
 kubectl apply -f k8s/base/namespace.yaml
 kubectl apply -f k8s/client/deployment.yaml
 kubectl apply -f k8s/client/service.yaml
-
-# Deploy server second
 kubectl apply -f k8s/base/pvc.yaml
 kubectl apply -f k8s/base/configmap.yaml
 kubectl apply -f k8s/server/deployment.yaml
 kubectl apply -f k8s/server/service.yaml
-
-# Deploy ingress
 kubectl apply -f k8s/base/ingress.yaml
 
-# (Optional) Deploy socket server last
+# (Optional) Deploy socket server for collaboration
 kubectl apply -f k8s/socket/deployment.yaml
 kubectl apply -f k8s/socket/service.yaml
 ```
 
-### Step 4: Verify Deployment
+### Step 3: Verify Deployment
 
 ```bash
 # Check all resources
@@ -175,8 +156,8 @@ kubectl apply -f apps/excalidraw/application.yaml
 ## Troubleshooting
 
 ### Images not pulling
-- Make sure images are built: `docker images | grep excalidraw`
-- For remote clusters, push to a registry and update image references
+- Check if pods are pulling the official images correctly
+- For private registries, create imagePullSecrets and reference them in deployments
 
 ### PVC pending
 - Check storage class: `kubectl get storageclass`

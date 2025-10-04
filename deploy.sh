@@ -5,6 +5,8 @@
 set -e
 
 echo "Deploying Excalidraw to Kubernetes..."
+echo "Using official Excalidraw image: excalidraw/excalidraw:latest"
+echo ""
 
 # Create namespace
 echo "Creating namespace..."

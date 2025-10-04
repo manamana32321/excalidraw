@@ -1,4 +1,4 @@
-.PHONY: help build deploy clean status logs check-prereq
+.PHONY: help deploy clean status logs check-prereq
 
 # Default target
 help:
@@ -6,11 +6,7 @@ help:
 	@echo "================================="
 	@echo ""
 	@echo "Available targets:"
-	@echo "  make check-prereq    - Check prerequisites (docker, kubectl)"
-	@echo "  make build           - Build all Docker images"
-	@echo "  make build-client    - Build client image only"
-	@echo "  make build-server    - Build server image only"
-	@echo "  make build-socket    - Build socket image only"
+	@echo "  make check-prereq    - Check prerequisites (kubectl)"
 	@echo "  make deploy          - Deploy to Kubernetes"
 	@echo "  make deploy-client   - Deploy client only"
 	@echo "  make deploy-server   - Deploy server only"
@@ -28,28 +24,9 @@ help:
 # Check prerequisites
 check-prereq:
 	@echo "Checking prerequisites..."
-	@command -v docker >/dev/null 2>&1 || { echo "docker is required but not installed"; exit 1; }
 	@command -v kubectl >/dev/null 2>&1 || { echo "kubectl is required but not installed"; exit 1; }
-	@echo "✓ docker found"
 	@echo "✓ kubectl found"
 	@kubectl cluster-info >/dev/null 2>&1 && echo "✓ kubectl can access cluster" || { echo "✗ Cannot access Kubernetes cluster"; exit 1; }
-
-# Build targets
-build: check-prereq
-	@echo "Building all images..."
-	@./build.sh
-
-build-client: check-prereq
-	@echo "Building client image..."
-	@cd k8s/client && docker build -t excalidraw-client:latest .
-
-build-server: check-prereq
-	@echo "Building server image..."
-	@cd k8s/server && docker build -t excalidraw-server:latest .
-
-build-socket: check-prereq
-	@echo "Building socket image..."
-	@cd k8s/socket && docker build -t excalidraw-socket:latest .
 
 # Deploy targets
 deploy: check-prereq

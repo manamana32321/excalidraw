@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
       - name: excalidraw-client
-        image: excalidraw-client:latest
-        imagePullPolicy: IfNotPresent
+        image: excalidraw/excalidraw:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
           protocol: TCP
