@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: excalidraw-config
+  labels:
+    app: excalidraw
+data:
+  # Client configuration
+  VITE_APP_WS_SERVER_URL: "wss://excalidraw.example.com/socket"  # Update with your domain
+  VITE_APP_HTTP_STORAGE_BACKEND_URL: "https://excalidraw.example.com/files"  # Update with your domain
+  
+  # Server configuration
+  STORAGE_PATH: "/data/excalidraw"

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: excalidraw-socket
+  labels:
+    app: excalidraw
+    component: socket
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: excalidraw
+      component: socket
+  template:
+    metadata:
+      labels:
+        app: excalidraw
+        component: socket
+    spec:
+      containers:
+      - name: excalidraw-socket
+        image: excalidraw-socket:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3002
+          protocol: TCP
+        env:
+        - name: PORT
+          value: "3002"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3002
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3002
+          initialDelaySeconds: 5
+          periodSeconds: 5

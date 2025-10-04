@@ -1,0 +1,54 @@
+# ArgoCD Application for Excalidraw with Socket Server Enabled
+# This file should be placed in your manamana32321/homelab repository
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: excalidraw
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  
+  source:
+    repoURL: https://github.com/manamana32321/excalidraw
+    targetRevision: main
+    path: k8s/base
+    kustomize:
+      patches:
+        - target:
+            kind: Kustomization
+          patch: |-
+            - op: add
+              path: /resources/-
+              value: ../socket/deployment.yaml
+            - op: add
+              path: /resources/-
+              value: ../socket/service.yaml
+  
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: excalidraw
+  
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas

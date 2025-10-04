@@ -1,0 +1,31 @@
+# Build artifacts
+*.tar
+*.tar.gz
+*.zip
+
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node modules (if any)
+node_modules/
+
+# Docker
+.dockerignore
+
+# Kubernetes secrets (if any local testing)
+*-secret.yaml
+*.key
+*.crt
+
+# Local testing
+/tmp/
+/test-data/
