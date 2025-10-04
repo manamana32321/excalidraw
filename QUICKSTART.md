@@ -20,6 +20,7 @@ kubectl get pods -n ingress-nginx
 ### Step 1: Configure Settings
 
 1. Edit `k8s/base/ingress.yaml` and replace `excalidraw.json-server.win` with your actual domain
+1. Edit `k8s/base/ingress.yaml` and replace `excalidraw.json-server.win` with your actual domain
 2. Edit `k8s/base/configmap.yaml` and update URLs with your domain
 3. (Optional) Edit `k8s/base/pvc.yaml` and uncomment/set the `storageClassName`
 
