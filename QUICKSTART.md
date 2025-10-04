@@ -19,7 +19,7 @@ kubectl get pods -n ingress-nginx
 
 ### Step 1: Configure Settings
 
-1. Edit `k8s/base/ingress.yaml` and replace `excalidraw.example.com` with your actual domain
+1. Edit `k8s/base/ingress.yaml` and replace `excalidraw.json-server.win` with your actual domain
 2. Edit `k8s/base/configmap.yaml` and update URLs with your domain
 3. (Optional) Edit `k8s/base/pvc.yaml` and uncomment/set the `storageClassName`
 
@@ -67,6 +67,7 @@ kubectl logs -f deployment/excalidraw-server -n excalidraw
 ### Step 5: Configure DNS
 
 1. Get the ingress external IP:
+
 ```bash
 kubectl get ingress -n excalidraw
 ```
@@ -110,12 +111,14 @@ kubectl get pv
 ## Enabling Socket Server (Optional)
 
 1. Edit `k8s/base/kustomization.yaml` and uncomment:
+
 ```yaml
-  - ../socket/deployment.yaml
-  - ../socket/service.yaml
+- ../socket/deployment.yaml
+- ../socket/service.yaml
 ```
 
 2. Apply changes:
+
 ```bash
 kubectl apply -k k8s/base/
 ```
@@ -125,6 +128,7 @@ kubectl apply -k k8s/base/
 In your `manamana32321/homelab` repository, create:
 
 **apps/excalidraw/application.yaml**:
+
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -145,10 +149,11 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
 ```
 
 Apply:
+
 ```bash
 kubectl apply -f apps/excalidraw/application.yaml
 ```
@@ -156,18 +161,22 @@ kubectl apply -f apps/excalidraw/application.yaml
 ## Troubleshooting
 
 ### Images not pulling
+
 - Check if pods are pulling the official images correctly
 - For private registries, create imagePullSecrets and reference them in deployments
 
 ### PVC pending
+
 - Check storage class: `kubectl get storageclass`
 - Update `k8s/base/pvc.yaml` with available storage class
 
 ### Ingress not working
+
 - Verify ingress controller is running
 - Check ingress events: `kubectl describe ingress excalidraw-ingress -n excalidraw`
 - Verify DNS is configured correctly
 
 ### Can't access files
+
 - Check server logs: `kubectl logs deployment/excalidraw-server -n excalidraw`
 - Verify PVC is mounted: `kubectl describe pod -n excalidraw -l component=server`

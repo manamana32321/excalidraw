@@ -12,10 +12,10 @@ spec:
   # Uncomment if using TLS
   # tls:
   # - hosts:
-  #   - excalidraw.example.com
+  #   - excalidraw.json-server.win
   #   secretName: excalidraw-tls
   rules:
-  - host: excalidraw.example.com  # Replace with your domain
+  - host: excalidraw.json-server.win  # Replace with your domain
     http:
       paths:
       # Client application
