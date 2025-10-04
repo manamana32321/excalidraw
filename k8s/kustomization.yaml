@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: excalidraw
+
+resources:
+- base/namespace.yaml
+- base/configmap.yaml
+- base/pvc.yaml
+- base/ingress.yaml
+- client/deployment.yaml
+- client/service.yaml
+- server/deployment.yaml
+- server/service.yaml
+- socket/deployment.yaml
+- socket/service.yaml
+
+labels:
+- includeSelectors: true
+  pairs:
+    app: excalidraw
