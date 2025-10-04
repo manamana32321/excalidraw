@@ -17,22 +17,6 @@ spec:
   - host: excalidraw.json-server.win
     http:
       paths:
-      # Client application
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: excalidraw-client
-            port:
-              number: 80
-      # Server for .excalidraw files
-      - path: /files
-        pathType: Prefix
-        backend:
-          service:
-            name: excalidraw-server
-            port:
-              number: 8080
       # Socket server (optional)
       - path: /socket
         pathType: Prefix
@@ -41,3 +25,19 @@ spec:
             name: excalidraw-socket
             port:
               number: 3002
+      # Server for .excalidraw files
+      - path: /files
+        pathType: Prefix
+        backend:
+          service:
+            name: excalidraw-server
+            port:
+              number: 8080
+      # Client application
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: excalidraw-client
+            port:
+              number: 80
