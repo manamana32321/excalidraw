@@ -12,17 +12,17 @@ This repository contains Kubernetes manifests and Docker configurations for depl
 
 ## Architecture
 
-- **Client**: Nginx-based static file server serving the Excalidraw web application
-- **Server**: Nginx-based file server with persistent storage for .excalidraw files
+- **Client**: Caddy-based static file server serving the Excalidraw web application
+- **Server**: Caddy-based file server with persistent storage for .excalidraw files
 - **Socket Server** (Optional): Node.js WebSocket server for real-time collaboration
-- **Ingress**: Routes external traffic to client and exposes .excalidraw files
+- **Ingress**: Traefik ingress controller routes external traffic to client and exposes .excalidraw files
 
 ## Prerequisites
 
 - Kubernetes cluster (v1.19+)
 - kubectl configured to access your cluster
 - Docker (for building images)
-- Ingress controller installed in your cluster (e.g., nginx-ingress)
+- Traefik ingress controller installed in your cluster
 - Storage class configured for PersistentVolumeClaims
 
 ## Directory Structure
@@ -37,13 +37,12 @@ k8s/
 │   └── kustomization.yaml    # Kustomize configuration
 ├── client/
 │   ├── Dockerfile            # Client Docker image
-│   ├── nginx.conf            # Client nginx configuration
+│   ├── Caddyfile             # Client Caddy configuration
 │   ├── deployment.yaml       # Client deployment
 │   └── service.yaml          # Client service
 ├── server/
 │   ├── Dockerfile            # Server Docker image
-│   ├── server-nginx.conf     # Server nginx configuration
-│   ├── start.sh              # Server startup script
+│   ├── Caddyfile             # Server Caddy configuration
 │   ├── deployment.yaml       # Server deployment
 │   └── service.yaml          # Server service
 └── socket/

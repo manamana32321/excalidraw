@@ -14,6 +14,7 @@
 │                                                                  │
 │  ┌───────────────────────────────────────────────────────────┐  │
 │  │                    Ingress Controller                      │  │
+│  │                     (Traefik)                            │  │
 │  │                 (excalidraw.example.com)                   │  │
 │  └───────┬─────────────────┬──────────────────┬───────────────┘  │
 │          │                 │                  │                  │
@@ -45,14 +46,14 @@
 
 ### 1. Client (First to Deploy)
 - **Image**: Built from official Excalidraw repo
-- **Technology**: React app served by Nginx
+- **Technology**: React app served by Caddy
 - **Port**: 80
 - **Replicas**: 2 (for HA)
 - **Path**: `/` (root)
 - **Purpose**: Web UI for drawing
 
 ### 2. Server (Second to Deploy)
-- **Image**: Nginx-based file server
+- **Image**: Caddy-based file server
 - **Port**: 8080
 - **Replicas**: 1
 - **Path**: `/files`
@@ -61,7 +62,7 @@
 - **Features**:
   - Directory listing
   - CORS enabled
-  - WebDAV upload support
+  - File upload support
 
 ### 3. Socket Server (Optional, Last to Deploy)
 - **Image**: Built from Excalidraw collaboration server
@@ -81,7 +82,7 @@ Ingress (/)
     ↓
 Client Service
     ↓
-Client Pod (Nginx)
+Client Pod (Caddy)
     ↓ (serves React app)
 User Browser
 ```
@@ -94,7 +95,7 @@ Ingress (/files/*)
     ↓
 Server Service
     ↓
-Server Pod (Nginx)
+Server Pod (Caddy)
     ↓
 PersistentVolume (/data/excalidraw)
     ↓
@@ -104,7 +105,7 @@ File returned to browser
 ### File Upload
 ```
 User/Script
-    ↓ (kubectl cp or WebDAV PUT)
+    ↓ (kubectl cp or HTTP PUT)
 Server Pod
     ↓
 PersistentVolume

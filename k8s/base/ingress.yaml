@@ -5,8 +5,11 @@ metadata:
   labels:
     app: excalidraw
   annotations:
-    # Uncomment and configure based on your ingress controller
-    # nginx.ingress.kubernetes.io/rewrite-target: /
+    # Traefik annotations
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    # Uncomment for HTTPS/TLS
+    # traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
     # cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   # Uncomment if using TLS

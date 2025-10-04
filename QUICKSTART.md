@@ -10,7 +10,7 @@ kubectl version --client
 kubectl cluster-info
 
 # Check ingress controller
-kubectl get pods -n ingress-nginx
+kubectl get pods -n traefik
 ```
 
 ## Deployment Steps

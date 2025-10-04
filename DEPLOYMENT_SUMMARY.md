@@ -29,13 +29,12 @@ excalidraw/
     │   └── kustomization.yaml         # Kustomize config
     ├── client/
     │   ├── Dockerfile                 # Client container image
-    │   ├── nginx.conf                 # Client web server config
+    │   ├── Caddyfile                  # Client web server config
     │   ├── deployment.yaml            # Client deployment
     │   └── service.yaml               # Client service
     ├── server/
     │   ├── Dockerfile                 # Server container image
-    │   ├── server-nginx.conf          # Server web server config
-    │   ├── start.sh                   # Server startup script
+    │   ├── Caddyfile                  # Server web server config
     │   ├── deployment.yaml            # Server deployment
     │   └── service.yaml               # Server service
     └── socket/
@@ -48,17 +47,17 @@ excalidraw/
 
 ### 1. Client Deployment
 - Multi-stage Docker build using official Excalidraw repository
-- Nginx-based static file serving
+- Caddy-based static file serving
 - Optimized caching and compression
 - Health checks (liveness & readiness probes)
 - Resource limits configured
 
 ### 2. Server Deployment
-- Nginx-based file server for .excalidraw files
+- Caddy-based file server for .excalidraw files
 - Persistent storage using PersistentVolumeClaim (10Gi)
 - CORS headers for cross-origin access
 - Directory listing enabled
-- File upload support (via WebDAV)
+- File upload support
 
 ### 3. Socket Server (Optional)
 - Real-time collaboration support
@@ -66,7 +65,7 @@ excalidraw/
 - Can be enabled by uncommenting in kustomization.yaml
 
 ### 4. Ingress Configuration
-- Single ingress for all services
+- Single ingress for all services using Traefik
 - Path-based routing:
   - `/` → Client application
   - `/files` → Server file storage

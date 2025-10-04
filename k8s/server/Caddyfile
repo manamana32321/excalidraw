@@ -1,0 +1,34 @@
+{
+    auto_https off
+    admin off
+}
+
+:8080 {
+    root * /data/excalidraw
+    file_server browse
+    
+    # CORS headers for excalidraw files
+    header Access-Control-Allow-Origin "*"
+    header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    header Access-Control-Allow-Headers "Content-Type, Authorization"
+    
+    # Handle OPTIONS requests for CORS preflight
+    @options {
+        method OPTIONS
+    }
+    respond @options 204
+    
+    # Serve excalidraw files with proper content type
+    @excalidraw {
+        path *.excalidraw
+    }
+    header @excalidraw Content-Type "application/json"
+    
+    # Upload endpoint (for future use)
+    handle /upload* {
+        # Max upload size 10MB
+        request_body {
+            max_size 10MB
+        }
+    }
+}
