@@ -54,16 +54,16 @@
 
 ### 2. Server (Second to Deploy)
 
-- **Image**: Nginx-based file server
+- **Image**: Excalidraw storage backend
 - **Port**: 8080
 - **Replicas**: 1
 - **Path**: `/files`
 - **Storage**: PersistentVolumeClaim (10Gi)
 - **Purpose**: Store and serve .excalidraw files
 - **Features**:
-  - Directory listing
+  - RESTful API for file operations
   - CORS enabled
-  - WebDAV upload support
+  - Purpose-built for Excalidraw files
 
 ### 3. Socket Server (Optional, Last to Deploy)
 

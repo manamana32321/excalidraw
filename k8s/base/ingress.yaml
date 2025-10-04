@@ -32,7 +32,7 @@ spec:
           service:
             name: excalidraw-server
             port:
-              number: 80
+              number: 8080
       # Socket server (optional)
       - path: /socket
         pathType: Prefix

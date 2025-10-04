@@ -7,13 +7,13 @@ Personal Excalidraw deployment for on-premise Kubernetes cluster using official 
 This repository contains Kubernetes manifests for deploying Excalidraw to an on-premise Kubernetes cluster. The deployment uses official Excalidraw images:
 
 - **Client**: Official Excalidraw web application (`excalidraw/excalidraw:latest`)
-- **Server**: Nginx-based file server for storing .excalidraw files
+- **Server**: Purpose-built storage backend for storing .excalidraw files (`ghcr.io/kitsteam/excalidraw-storage-backend:main`)
 - **Socket Server**: Optional official collaboration server (`excalidraw/excalidraw-room:latest`)
 
 ## Architecture
 
 - **Client**: Official Excalidraw Docker image serving the web application
-- **Server**: Standard nginx image with persistent storage for .excalidraw files
+- **Server**: Purpose-built storage backend with persistent storage for .excalidraw files
 - **Socket Server** (Optional): Official Excalidraw collaboration server for real-time collaboration
 - **Ingress**: Routes external traffic to client and exposes .excalidraw files
 
@@ -38,7 +38,7 @@ k8s/
 │   ├── deployment.yaml       # Client deployment (uses excalidraw/excalidraw:latest)
 │   └── service.yaml          # Client service
 ├── server/
-│   ├── deployment.yaml       # Server deployment (uses nginx:alpine)
+│   ├── deployment.yaml       # Server deployment (uses ghcr.io/kitsteam/excalidraw-storage-backend:main)
 │   └── service.yaml          # Server service
 └── socket/
     ├── deployment.yaml       # Socket deployment (uses excalidraw/excalidraw-room:latest)
