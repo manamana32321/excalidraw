@@ -8,7 +8,7 @@ This document describes the changes made to simplify the Excalidraw Kubernetes d
 - `build.sh` - No longer needed as we use official images
 - `k8s/client/Dockerfile` - Replaced with official `excalidraw/excalidraw:latest`
 - `k8s/client/nginx.conf` - No longer needed
-- `k8s/server/Dockerfile` - Replaced with standard `nginx:alpine`
+- `k8s/server/Dockerfile` - Replaced with `ghcr.io/kitsteam/excalidraw-storage-backend:main`
 - `k8s/server/server-nginx.conf` - No longer needed
 - `k8s/server/start.sh` - No longer needed
 - `k8s/socket/Dockerfile` - Replaced with official `excalidraw/excalidraw-room:latest`
@@ -17,14 +17,14 @@ This document describes the changes made to simplify the Excalidraw Kubernetes d
 
 #### Deployments
 - **k8s/client/deployment.yaml**: Now uses `excalidraw/excalidraw:latest` (official image)
-- **k8s/server/deployment.yaml**: Now uses `nginx:alpine` for file serving
+- **k8s/server/deployment.yaml**: Now uses `ghcr.io/kitsteam/excalidraw-storage-backend:main` for file storage
 - **k8s/socket/deployment.yaml**: Now uses `excalidraw/excalidraw-room:latest` (official collaboration image)
 
 #### Services
-- **k8s/server/service.yaml**: Updated port from 8080 to 80 (standard nginx port)
+- **k8s/server/service.yaml**: Updated port from 80 to 8080 (storage backend port)
 
 #### Ingress
-- **k8s/base/ingress.yaml**: Updated server port from 8080 to 80
+- **k8s/base/ingress.yaml**: Updated server port from 80 to 8080
 
 #### Scripts
 - **Makefile**: Removed all build-related targets (build, build-client, build-server, build-socket)
@@ -84,7 +84,7 @@ make logs
 | Component | Image | Purpose |
 |-----------|-------|---------|
 | Client | `excalidraw/excalidraw:latest` | Official Excalidraw web application |
-| Server | `nginx:alpine` | Simple file server for .excalidraw files |
+| Server | `ghcr.io/kitsteam/excalidraw-storage-backend:main` | Purpose-built storage backend for .excalidraw files |
 | Socket | `excalidraw/excalidraw-room:latest` | Official collaboration server (optional) |
 
 ## Upgrading
