@@ -19,14 +19,14 @@ spec:
     spec:
       containers:
       - name: excalidraw-server
-        image: excalidraw-server:latest
+        image: nginx:alpine
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8080
+        - containerPort: 80
           protocol: TCP
         volumeMounts:
         - name: excalidraw-storage
-          mountPath: /data/excalidraw
+          mountPath: /usr/share/nginx/html
         resources:
           requests:
             memory: "128Mi"
@@ -37,13 +37,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /
-            port: 8080
+            port: 80
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /
-            port: 8080
+            port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
       volumes:

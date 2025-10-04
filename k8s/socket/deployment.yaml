@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
       - name: excalidraw-socket
-        image: excalidraw-socket:latest
-        imagePullPolicy: IfNotPresent
+        image: excalidraw/excalidraw-room:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3002
           protocol: TCP

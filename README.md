@@ -1,27 +1,26 @@
 # Excalidraw Kubernetes Deployment
 
-Personal Excalidraw deployment for on-premise Kubernetes cluster.
+Personal Excalidraw deployment for on-premise Kubernetes cluster using official Docker images.
 
 ## Overview
 
-This repository contains Kubernetes manifests and Docker configurations for deploying Excalidraw to an on-premise Kubernetes cluster. The deployment includes:
+This repository contains Kubernetes manifests for deploying Excalidraw to an on-premise Kubernetes cluster. The deployment uses official Excalidraw images:
 
-- **Client**: Excalidraw web application
-- **Server**: Storage backend for .excalidraw files
-- **Socket Server**: Optional WebSocket server for real-time collaboration
+- **Client**: Official Excalidraw web application (`excalidraw/excalidraw:latest`)
+- **Server**: Nginx-based file server for storing .excalidraw files
+- **Socket Server**: Optional official collaboration server (`excalidraw/excalidraw-room:latest`)
 
 ## Architecture
 
-- **Client**: Nginx-based static file server serving the Excalidraw web application
-- **Server**: Nginx-based file server with persistent storage for .excalidraw files
-- **Socket Server** (Optional): Node.js WebSocket server for real-time collaboration
+- **Client**: Official Excalidraw Docker image serving the web application
+- **Server**: Standard nginx image with persistent storage for .excalidraw files
+- **Socket Server** (Optional): Official Excalidraw collaboration server for real-time collaboration
 - **Ingress**: Routes external traffic to client and exposes .excalidraw files
 
 ## Prerequisites
 
 - Kubernetes cluster (v1.19+)
 - kubectl configured to access your cluster
-- Docker (for building images)
 - Ingress controller installed in your cluster (e.g., nginx-ingress)
 - Storage class configured for PersistentVolumeClaims
 
@@ -36,19 +35,13 @@ k8s/
 │   ├── ingress.yaml          # Ingress configuration
 │   └── kustomization.yaml    # Kustomize configuration
 ├── client/
-│   ├── Dockerfile            # Client Docker image
-│   ├── nginx.conf            # Client nginx configuration
-│   ├── deployment.yaml       # Client deployment
+│   ├── deployment.yaml       # Client deployment (uses excalidraw/excalidraw:latest)
 │   └── service.yaml          # Client service
 ├── server/
-│   ├── Dockerfile            # Server Docker image
-│   ├── server-nginx.conf     # Server nginx configuration
-│   ├── start.sh              # Server startup script
-│   ├── deployment.yaml       # Server deployment
+│   ├── deployment.yaml       # Server deployment (uses nginx:alpine)
 │   └── service.yaml          # Server service
 └── socket/
-    ├── Dockerfile            # Socket server Docker image
-    ├── deployment.yaml       # Socket deployment (optional)
+    ├── deployment.yaml       # Socket deployment (uses excalidraw/excalidraw-room:latest)
     └── service.yaml          # Socket service (optional)
 ```
 
@@ -59,27 +52,6 @@ Before deploying, update the following files with your environment-specific sett
 1. **k8s/base/ingress.yaml**: Update `host` with your domain name
 2. **k8s/base/configmap.yaml**: Update URLs with your domain
 3. **k8s/base/pvc.yaml**: Uncomment and set `storageClassName` if needed
-
-## Building Images
-
-Build all Docker images:
-
-```bash
-./build.sh
-```
-
-Or build individually:
-
-```bash
-# Build client
-cd k8s/client && docker build -t excalidraw-client:latest .
-
-# Build server
-cd k8s/server && docker build -t excalidraw-server:latest .
-
-# Build socket server (optional)
-cd k8s/socket && docker build -t excalidraw-socket:latest .
-```
 
 ## Deployment
 
@@ -233,8 +205,9 @@ spec:
 
 To upgrade to a newer version of Excalidraw:
 
-1. Rebuild the Docker images: `./build.sh`
-2. Update the deployment: `kubectl rollout restart deployment -n excalidraw`
+1. Pull the latest images: `kubectl rollout restart deployment -n excalidraw`
+
+The deployment will automatically pull the latest official images on restart.
 
 ## Cleanup
 
