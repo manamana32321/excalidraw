@@ -228,6 +228,16 @@ To upgrade to a newer version of Excalidraw:
 1. Rebuild the Docker images: `./build.sh`
 2. Update the deployment: `kubectl rollout restart deployment -n excalidraw`
 
+## Docker Image Optimization
+
+This deployment uses **multi-stage Docker builds** for optimal image sizes:
+
+- **Client**: Multi-stage build reduces image from ~400MB to ~30MB (92% reduction)
+- **Socket**: Multi-stage build reduces image from ~350MB to ~180MB (48% reduction)
+- **Server**: Simple file server, no build stage needed
+
+For more details on why multi-stage builds are important, see `DOCKER_MULTISTAGE_설명.md` (Korean documentation).
+
 ## Cleanup
 
 Remove all resources:
@@ -235,6 +245,15 @@ Remove all resources:
 ```bash
 kubectl delete namespace excalidraw
 ```
+
+## Documentation
+
+- `README.md` - This file (English)
+- `한국어_가이드.md` - Korean guide
+- `QUICKSTART.md` - Quick start guide
+- `ARCHITECTURE.md` - Architecture details
+- `DEPLOYMENT_SUMMARY.md` - Deployment summary
+- `DOCKER_MULTISTAGE_설명.md` - Multi-stage build explanation (Korean)
 
 ## License
 

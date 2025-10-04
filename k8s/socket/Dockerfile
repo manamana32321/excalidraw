@@ -1,5 +1,8 @@
 # Excalidraw Socket Server Dockerfile
-FROM node:18-alpine
+# Multi-stage build for optimized production image
+
+# Build stage
+FROM node:18-alpine as builder
 
 WORKDIR /app
 
@@ -10,7 +13,19 @@ RUN apk add --no-cache git && \
     yarn install && \
     yarn build
 
+# Production stage
+FROM node:18-alpine
+
 WORKDIR /app/excalidraw-room
+
+# Copy built files and package files from builder
+COPY --from=builder /app/excalidraw-room/dist ./dist
+COPY --from=builder /app/excalidraw-room/package.json ./package.json
+COPY --from=builder /app/excalidraw-room/yarn.lock ./yarn.lock
+
+# Install production dependencies only
+RUN yarn install --production --frozen-lockfile && \
+    yarn cache clean
 
 EXPOSE 3002
 

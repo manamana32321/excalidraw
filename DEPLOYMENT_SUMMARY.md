@@ -61,8 +61,10 @@ excalidraw/
 - File upload support (via WebDAV)
 
 ### 3. Socket Server (Optional)
+- Multi-stage Docker build for optimized image size
 - Real-time collaboration support
 - WebSocket server on port 3002
+- Production-only dependencies
 - Can be enabled by uncommenting in kustomization.yaml
 
 ### 4. Ingress Configuration
