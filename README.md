@@ -22,7 +22,7 @@ This repository contains Kubernetes manifests and Docker configurations for depl
 - Kubernetes cluster (v1.19+)
 - kubectl configured to access your cluster
 - Docker (for building images)
-- Traefik ingress controller installed in your cluster
+- Traefik ingress controller installed in your cluster (see [TRAEFIK_SETUP.md](TRAEFIK_SETUP.md))
 - Storage class configured for PersistentVolumeClaims
 
 ## Directory Structure
